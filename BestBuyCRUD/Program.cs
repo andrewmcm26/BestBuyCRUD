@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using MySql.Data.MySqlClient;
 
 namespace BestBuyCRUD
@@ -9,12 +10,16 @@ namespace BestBuyCRUD
     {
         static void Main(string[] args)
         {
-            var departments = GetAllDepartments();
+            IDbConnection conn = new MySqlConnection();
+            conn.ConnectionString = System.IO.File.ReadAllText("ConnectionString.txt");
 
+            var repo = new DapperDepartmentRepository(conn);
+            var departments = repo.GetAllDepartments();
             foreach (var dept in departments)
             {
-                Console.WriteLine(dept);
+                Console.WriteLine($"{dept.DepartmentID} {dept.Name}");
             }
+
         }
 
         static IEnumerable GetAllDepartments()
