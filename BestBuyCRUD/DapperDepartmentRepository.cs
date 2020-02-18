@@ -19,5 +19,11 @@ namespace BestBuyCRUD
         {
             return _connection.Query<Department>("SELECT * FROM Departments;").ToList();
         }
+
+        public IEnumerable<Department> InsertNewDepartment(string newDepartment )
+        {
+            return _connection.Query<Department>("INSERT INTO Departments (Name) " +
+                "VALUES (@departmentName);", new { departmentName = newDepartment } );
+        }
     }
 }
